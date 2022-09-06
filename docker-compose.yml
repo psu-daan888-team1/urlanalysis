@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  jupyter:
+    image: jupyter/datascience-notebook:lab-3.4.5
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_TOKEN=${pg_pw}
+    volumes:
+      - ./jupyter/notebooks:/home/jovyan/work
+      - ./models:/home/jovyan/work/models
+  pg:
+    image: postgres:14.5
+    environment:
+      - POSTGRES_USER=daan
+      - POSTGRES_PASSWORD=${pg_pw}
+      - POSTGRES_DB=phishing_data
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/opt/data
+      - ./docker/postgres:/docker-entrypoint-initdb.d

@@ -1,0 +1,215 @@
+a b s t r a c t:
+
+Phishing stands for a fraudulent process, where an attacker
+tries to obtain sensitive information from the victim. Usually,
+these kinds of attacks are done via emails, text messages, or
+websites. Phishing websites, which are nowadays in a considerable rise, have the same look as legitimate sites. However, their backend is designed to collect 
+sensitive information that is inputted by the victim. Discovering and detecting phishing websites has recently also gained the machine
+learning community’s attention, which has built the models and performed classifications of phishing websites. This
+paper presents two dataset variations that consist of 58,645
+and 88,647 websites labeled as legitimate or phishing and allow the researchers to train their classification models, build
+phishing detection systems, and mining association rules.
+
+*********************************************************************************************************************************************************************************************
+Specifications Table:
+
+1. Subject- Computer Science
+
+2. Specific subject area- Artificial Intelligence
+
+3. Type of data- csv file
+
+4. How data were acquired- Data were acquired through the publicly available lists of phishing and legitimate websites, from which the features presented in the datasets were extracted.
+
+5. Data format Raw: csv file
+
+6. Parameters for data collection- For the phishing websites, only the ones from the PhishTank registry were included, which are verified from multiple users. For the legitimate websites,
+   we included the websites from publicly available, community labeled and organized lists [1], and from the Alexa top ranking websites.
+
+7. Description of data collection- The data is comprised of the features extracted from the collections of websites addresses. The data in total consists of 111 features, 96 of which are
+   extracted from the website address itself, while the remaining 15 features were extracted using custom Python code. Data source location Worldwide
+
+*********************************************************************************************************************************************************************************************
+
+Value of the Data
+
+• These data consist of a collection of legitimate, as well as phishing website instances. Each
+website is represented by the set of features that denote whether the website is legitimate
+or not. Data can serve as input for the machine learning process.
+
+• Machine learning and data mining researchers can benefit from these datasets, while also
+computer security researchers and practitioners. Computer security enthusiasts can find these
+datasets interesting for building firewalls, intelligent ad blockers, and malware detection
+systems.
+
+• This dataset can help researchers and practitioners easily build classification models in systems 
+preventing phishing attacks since the presented datasets feature the attributes which
+can be easily extracted.
+
+• Finally, the provided datasets could also be used as a performance benchmark for developing
+state-of-the-art machine learning methods for the task of phishing websites classification.
+
+*********************************************************************************************************************************************************************************************
+
+Data Description
+
+The presented dataset was collected and prepared for the purpose of building and evaluating
+various classification methods for the task of detecting phishing websites based on the uniform
+resource locator (URL) properties, URL resolving metrics, and external services. The attributes of
+the prepared dataset can be divided into six groups:
+
+• attributes based on the whole URL properties presented in Table 1,
+• attributes based on the domain properties presented in Table 2,
+• attributes based on the URL directory properties presented in Table 3,
+• attributes based on the URL file properties presented in Table 4,
+• attributes based on the URL parameter properties presented in Table 5, and
+• attributes based on the URL resolving data and external metrics presented in Table 6
+
+**************************************************************************************************************************************************************************************
+
+Table 1
+Dataset attributes based on URL.
+Nr. 		Attribute 		Format 					Description 		
+1 		qty_dot_url 		Number of ”.” signs			 Numeric
+2 		qty_hyphen_url 		Number of ”-” signs 			Numeric
+3 		qty_underline_url 	Number of ”_” signs		 	Numeric
+4 		qty_slash_url 		Number of ”/” signs 			Numeric
+5 		qty_questionmark_url 	Number of ”?” signs 			Numeric
+6 		qty_equal_url 		Number of ”=” signs 			Numeric
+7 		qty_at_url 		Number of ”@” signs 			Numeric
+8 		qty_and_url 		Number of ”&” signs 			Numeric
+9 		qty_exclamation_url 	Number of ”!” signs 			Numeric
+10 		qty_space_url 		Number of ” ” signs 			Numeric
+11 		qty_tilde_url 		Number of ˜	signs 			Numeric
+12 		qty_comma_url 		Number of ”,” signs 			Numeric
+13 		qty_plus_url 		Number of ”+” signs 			Numeric
+14 		qty_asterisk_url 	Number of ”∗” signs 			Numeric
+15 		qty_hashtag_url 	Number of ”#” signs 			Numeric
+16 		qty_dollar_url 		Number of ”$” signs 			Numeric
+17 		qty_percent_url 	Number of ”%” signs 			Numeric
+18 		qty_tld_url 		Top level domain character length 	Numeric
+19 		length_url 		Number of characters 			Numeric
+20 		email_in_url 		Is email present 			Boolean
+
+***********************************************************************************************************************************************************************************
+Table 2
+Dataset attributes based on domain URL.
+Nr. 		Attribute 		Format 					Description Values
+1 		qty_dot_domain 		Number of ”.” signs 			Numeric
+2 		qty_hyphen_domain 	Number of ”-” signs 			Numeric
+3 		qty_underline_domain 	Number of ”_” signs 			Numeric
+4 		qty_slash_domain 	Number of ”/” signs 			Numeric
+5 		qty_questionmark_domain Number of ”?” signs 			Numeric
+6		 qty_equal_domain 	Number of ”=” signs 			Numeric
+7 		qty_at_domain 		Number of ”@” signs 			Numeric
+8 		qty_and_domain 		Number of ”&” signs 			Numeric
+9 		qty_exclamation_domain  Number of ”!” signs 			Numeric
+10 		qty_space_domain 	Number of ” ” signs 			Numeric
+11 		qty_tilde_domain 	Number of ”signs 			Numeric
+12 		qty_comma_domain 	Number of ”,” signs 			Numeric
+13 		qty_plus_domain 	Number of ”+” signs 			Numeric
+14 		qty_asterisk_domain 	Number of ”∗” signs 			Numeric
+15 		qty_hashtag_domain 	Number of ”#” signs 			Numeric
+16 		qty_dollar_domain 	Number of ”$” signs 			Numeric
+17 		qty_percent_domain 	Number of ”%” signs 			Numeric
+18 		qty_vowels_domain 	Number of vowels 			Numeric
+19 		domain_length 		Number of domain characters 		Numeric
+20 		domain_in_ip 		URL domain in IP address format 	Boolean 
+21 		server_client_domain 	”server” or ”client” in domain 		Boolean
+
+***********************************************************************************************************************************************************************************
+
+Table 3
+Dataset attributes based on URL directory.
+Nr. 	Attribute 			Format 					Description Values
+1 	qty_dot_directory 		Number of ”.” signs 			Numeric
+2 	qty_hyphen_directory 		Number of ”-” signs 			Numeric
+3 	qty_underline_directory 	Number of ”_” signs 			Numeric
+4 	qty_slash_directory 		Number of ”/” signs 			Numeric
+5 	qty_questionmark_directory 	Number of ”?” signs 			Numeric
+6 	qty_equal_directory 		Number of ”=” signs 			Numeric
+7 	qty_at_directory 		Number of ”@” signs 			Numeric
+8 	qty_and_directory 		Number of ”&” signs 			Numeric
+9 	qty_exclamation_directory	 Number of ”!” signs 			Numeric
+10 	qty_space_directory 		Number of ” ” signs 			Numeric
+11 	qty_tilde_directory 		Number of ”signs 			Numeric
+12 	qty_comma_directory 		Number of ”,” signs 			Numeric
+13 	qty_plus_directory 		Number of ”+” signs 			Numeric
+14 	qty_asterisk_directory 		Number of ”∗” signs 			Numeric
+15 	qty_hashtag_directory 		Number of ”#” signs 			Numeric
+16 	qty_dollar_directory 		Number of ”$” signs 			Numeric
+17 	qty_percent_directory 		Number of ”%” signs 			Numeric
+18 	directory_length 		Number of directory characters 		Numeric
+
+***********************************************************************************************************************************************************************************
+
+Table 4
+Dataset attributes based on URL file name.
+Nr. 	Attribute 			Format 					Description Values
+1 	qty_dot_file 			Number of ”.” signs 			Numeric
+2 	qty_hyphen_file 		Number of ”-” signs 			Numeric
+3 	qty_underline_file 		Number of ”_” signs 			Numeric
+4 	qty_slash_file 			Number of ”/” signs 			Numeric
+5 	qty_questionmark_file 		Number of ”?” signs 			Numeric
+6 	qty_equal_file 			Number of ”=” signs 			Numeric
+7 	qty_at_file 			Number of ”@” signs 			Numeric
+8 	qty_and_file 			Number of ”&” signs 			Numeric
+9 	qty_exclamation_file 		Number of ”!” signs 			Numeric
+10 	qty_space_file 			Number of ” ” signs 			Numeric
+11 	qty_tilde_file 			Number of ”signs 			Numeric
+12 	qty_comma_file 			Number of ”,” signs 			Numeric
+13 	qty_plus_file 			Number of ”+” signs 			Numeric
+14 	qty_asterisk_file 		Number of ”∗” signs 			Numeric
+15 	qty_hashtag_file 		Number of ”#” signs 			Numeric
+16 	qty_dollar_file 		Number of ”$” signs 			Numeric
+17 	qty_percent_file 		Number of ”%” signs 			Numeric
+18 	file_length 			Number of file name characters 		Numeric
+
+***********************************************************************************************************************************************************************************
+
+Table 5
+Dataset attributes based on URL parameters.
+Nr. 	Attribute 			Format 					Description Values
+1 	qty_dot_params 			Number of ”.” signs 			Numeric
+2 	qty_hyphen_params 		Number of ”-” signs			 Numeric
+3 	qty_underline_params 		Number of ”_” signs 			Numeric
+4 	qty_slash_params 		Number of ”/” signs 			Numeric
+5 	qty_questionmark_params 	Number of ”?” signs 			Numeric
+6 	qty_equal_params 		Number of ”=” signs 			Numeric
+7 	qty_at_params 			Number of ”@” signs 			Numeric
+8 	qty_and_params 			Number of ”&” signs 			Numeric
+9 	qty_exclamation_params 		Number of ”!” signs 			Numeric
+10 	qty_space_params 		Number of ” ” signs 			Numeric
+11 	qty_tilde_params 		Number of ”signs 			Numeric
+12 	qty_comma_params 		Number of ”,” signs 			Numeric
+13 	qty_plus_params 		Number of ”+” signs 			Numeric
+14 	qty_asterisk_params 		Number of ”∗” signs 			Numeric
+15 	qty_hashtag_params 		Number of ”#” signs 			Numeric
+16 	qty_dollar_params 		Number of ”$” signs 			Numeric
+17 	qty_percent_params 		Number of ”%” signs 			Numeric
+18 	params_length 			Number of parameters characters 	Numeric
+19 	tld_present_params 		TLD1present in parameters 		Boolean [0, 1]
+20 	qty_params 			Number of parameters 			Numeric
+
+***********************************************************************************************************************************************************************************
+
+Table 6
+Dataset attributes based on resolving URL and external services.
+Nr. 	Attribute 			Format 					Description Values
+1 	time_response			 Domain lookup time response 		Numeric
+2 	domain_spf 			Domain has SPF 2 			Boolean [0, 1]
+3 	asn_ip 				ASN 3 					Numeric
+4 	time_domain_activation 		Domain activation time (in days)	 Numeric
+5 	time_domain_expiration 		Domain expiration time (in days) 	Numeric
+6 	qty_ip_resolved 		Number of resolved IPs 			Numeric
+8 	qty_nameservers 		Number of resolved NS4 			Numeric
+9 	qty_mx_servers 			Number of MX 5servers 			Numeric
+10 	ttl_hostname 			Time-To-Live (TTL) 			Numeric
+11 	tls_ssl_certificate 		Has valid TLS 6/SSL 7certificate 	Boolean [0, 1]
+12 	qty_redirects 			Number of redirects 			Numeric
+13 	url_google_index 		Is URL indexed on Google 		Boolean [0, 1]
+14 	domain_google_index 		Is domain indexed on Google 		Boolean [0, 1]
+15 	url_shortened 			Is URL shortened 			Boolean
+16 	phishing 			Is phishing website 			Boolean [0, 1]
+
+***********************************************************************************************************************************************************************************
