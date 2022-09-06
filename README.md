@@ -17,3 +17,6 @@
   * User: daan
   * Password: in .env file
   * Host/Port: localhost:5432
+
+## Citations
+Kukade , R. (2022). phishing-domain-detection. Retrieved from Kaggle: https://www.kaggle.com/datasets/ravirajkukade/phishingdomaindetection?select=dataset_full.csv
