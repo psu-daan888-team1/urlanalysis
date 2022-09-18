@@ -2,14 +2,16 @@ version: "3.9"
 
 services:
   jupyter:
-    image: jupyter/datascience-notebook:lab-3.4.5
+    build: ./docker/jupyter
     ports:
       - "8888:8888"
     environment:
       - JUPYTER_TOKEN=${pg_pw}
     volumes:
-      - ./jupyter/notebooks:/home/jovyan/work
-      - ./models:/home/jovyan/work/models
+      - ./jupyter/notebooks:/home/jovyan/work/notebooks
+      - ./jupyter/models:/home/jovyan/work/models
+      - ./jupyter/pages:/home/jovyan/work/pages
+
   pg:
     image: postgres:14.5
     environment:
