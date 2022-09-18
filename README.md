@@ -3,8 +3,8 @@
 ## Building
 * Ensure [Docker Desktop](https://www.docker.com/products/docker-desktop/) and [git](https://github.com/git-guides/install-git) are installed 
 * Open terminal (mac) or powershell (windows), and change to directory where project should be downloaded
-* Clone this repository: `git clone repo-url`
-* Change directory to base of repo
+* Clone this repository: `git clone https://github.com/psu-daan888-team1/urlanalysis.git`
+* Change directory to base of repo: `cd urlanalysis`
 * Create file called `.env` with the following text: `pg_pw = pass` where pass is the password you would like to use
 * Run `docker compose up`
 
