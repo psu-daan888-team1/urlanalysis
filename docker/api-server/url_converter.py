@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 from cymruwhois import Client
 import dns.resolver
 import datetime
@@ -9,7 +10,8 @@ import re
 import requests
 import string
 import tldextract
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlencode, urlparse
+from urllib3.exceptions import SSLError
 import whois
 
 
@@ -46,7 +48,6 @@ def table_1_features(full_url, counts):
     # https://stackoverflow.com/questions/17681670/extract-email-sub-strings-from-large-document
     exp = r'(?:\.?)([\w\-_+#~!$&\'\.]+(?<!\.)(@|[ ]?\(?[ ]?(at|AT)[ ]?\)?[ ]?)(?<!\.)[\w]+[\w\-\.]*\.[a-zA-Z-]{2,3})(?:[^\w])'
     counts['email_in_url'] = bool(re.search(exp, full_url))
-    
     return counts
 
 
@@ -91,36 +92,86 @@ def table_5_features(full_url, counts):
     return counts
 
 
+# adapted from: https://searchengineland.com/check-urls-indexed-google-using-python-259773
+# this may break if Google changes their search formatting
+# it may also break if Google starts to deny requests due to frequency
+def check_google_index(url):
+    agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
+    h = {'User-Agent': agent}
+    q = {'q': 'info:' + url}
+    g = "https://www.google.com/search?" + urlencode(q)
+    resp = requests.get(g, headers=h)
+    resp.encoding='ISO-8859-1'
+    s = BeautifulSoup(str(resp.content), "html.parser")
+    try:
+        check = s.find(id="rso").find("div").find("div").find("div").find("div").find("div").find("a")
+        href = check['href']
+        return True
+    except (AttributeError, TypeError):
+        return False
+
+
 def table_6_features(full_url):
     # https://www.dnspython.org/examples.html
-    # TODO: -1 if these tests do not resolve
     u = tldextract.extract(full_url)
     d = u.domain + '.' + u.suffix
-    who = whois.whois(d)
-    resp = requests.get('http://' + d)
     features = dict()
-    features['time_response'] = dns.resolver.resolve(d).response.time * 1000
+    try:
+        features['time_response'] = dns.resolver.resolve(d).response.time * 100
+    except dns.exception.DNSException:
+        features['time_response'] = -1
     # https://support.mailessentials.gfi.com/hc/en-us/articles/360015116520-How-to-check-and-read-a-Sender-Policy-Framework-record-for-a-domain
-    features['domain_spf'] = 'spf' in str(dns.resolver.resolve(d, 'TXT').rrset)
+    try:
+        features['domain_spf'] = 'spf' in str(dns.resolver.resolve(d, 'TXT').rrset)
+    except dns.exception.DNSException:
+        features['domain_spf'] = -1
     # https://github.com/JustinAzoff/python-cymruwhois
-    cli=Client()
-    res=cli.lookup(dns.resolver.resolve(d)[0].to_text())
-    features['asn_ip'] = res.asn
-    features['time_domain_activation'] = (datetime.datetime.now() - who['creation_date'][0]).days
-    features['time_domain_expiration'] = (who['expiration_date'][0] - datetime.datetime.now()).days
-    features['qty_ip_resolved'] = len(dns.resolver.resolve(d, 'A'))
-    features['qty_nameservers'] = len(dns.resolver.resolve(d, 'NS'))
-    features['qty_mx_servers'] = len(dns.resolver.resolve(d, 'MX'))
-    features['ttl_hostname'] = dns.resolver.resolve(d).rrset.ttl
+    try:
+        cli=Client()
+        res=cli.lookup(dns.resolver.resolve(d)[0].to_text())
+        features['asn_ip'] = res.asn
+    except dns.exception.DNSException:
+        features['asn_ip'] = -1
+    try:
+        who = whois.whois(d)
+        if type(who['creation_date']) == list:
+            features['time_domain_activation'] = (datetime.datetime.now() - who['creation_date'][0]).days
+            features['time_domain_expiration'] = (who['expiration_date'][0] - datetime.datetime.now()).days
+        else:
+            features['time_domain_activation'] = (datetime.datetime.now() - who['creation_date']).days
+            features['time_domain_expiration'] = (who['expiration_date'] - datetime.datetime.now()).days
+    except whois.parser.PywhoisError:
+        features['time_domain_activation'] = -1
+        features['time_domain_expiration'] = -1
+    try:
+        features['qty_ip_resolved'] = len(dns.resolver.resolve(d, 'A'))
+    except dns.exception.DNSException:
+        features['qty_ip_resolved'] = -1
+    try:
+        features['qty_nameservers'] = len(dns.resolver.resolve(d, 'NS'))
+    except dns.exception.DNSException:
+        features['qty_nameservers'] = -1
+    try:
+        features['qty_mx_servers'] = len(dns.resolver.resolve(d, 'MX'))
+    except dns.exception.DNSException:
+        features['qty_mx_servers'] = -1
+    try:
+        features['ttl_hostname'] = dns.resolver.resolve(d).rrset.ttl
+    except dns.exception.DNSException:
+        features['ttl_hostname'] = -1
     # https://www.geeksforgeeks.org/ssl-certificate-verification-python-requests/
     try:
         requests.get('https://' + d)
         features['tls_ssl_certificate'] = True
-    except SSLCertVerificationError:
+    except requests.exceptions.ConnectionError:
         features['tls_ssl_certificate'] = False
-    features['qty_redirects'] = sum([True if h.status_code in [301, 302] else False for h in resp.history])
-    features['url_google_index'] = 0 # TODO
-    features['domain_google_index'] = 0 # TODO
+    try:
+        resp = requests.get('http://' + d)
+        features['qty_redirects'] = sum([True if h.status_code in [301, 302] else False for h in resp.history])
+    except requests.exceptions.ConnectionError:
+        features['qty_redirects'] = -1
+    features['url_google_index'] = check_google_index(full_url)
+    features['domain_google_index'] = check_google_index(d)
     features['url_shortened'] = d.lower() in ['tinyurl.com', 'bit.ly', 't.co'] # TODO: add more URL shortening services
     return features
 

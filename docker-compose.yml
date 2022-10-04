@@ -5,6 +5,7 @@ services:
     build: ./docker/jupyter
     ports:
       - "8888:8888"
+      - "6006:6006"
     environment:
       - JUPYTER_TOKEN=${pg_pw}
     volumes:
