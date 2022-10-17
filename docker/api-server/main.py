@@ -14,7 +14,7 @@ class URL(BaseModel):
 
 def load_model():
     clf = xgb.XGBClassifier(tree_method='hist', enable_categorical=True, max_cat_to_onehot=3)
-    clf.load_model('../../jupyter/models/xgb.json')
+    clf.load_model('./models/xgb.json')
     return clf
 
 

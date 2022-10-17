@@ -24,3 +24,22 @@ services:
     volumes:
       - ./data:/opt/data
       - ./docker/postgres:/docker-entrypoint-initdb.d
+
+  streamlit:
+    build: ./docker/streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - PG_PW=${pg_pw}
+    volumes:
+      - ./docker/streamlit:/opt/app
+
+  api:
+    build: ./docker/api-server
+    ports:
+      - "8000:8000"
+    environment:
+      - PG_PW=${pg_pw}
+    volumes:
+      - ./docker/api-server:/opt/app
+      - ./jupyter/models:/opt/app/models

@@ -301,4 +301,17 @@ def build_inference(url):
     table_6 = table_6_features(url)
     s = pd.Series(table_1 | table_2 | table_3 | table_4 | table_5 | table_6)
     df = pd.DataFrame(s).transpose().astype(dtypes)
+    df.drop(['qty_slash_domain',
+ 'qty_questionmark_domain',
+ 'qty_equal_domain',
+ 'qty_and_domain',
+ 'qty_exclamation_domain',
+ 'qty_space_domain',
+ 'qty_tilde_domain',
+ 'qty_comma_domain',
+ 'qty_plus_domain',
+ 'qty_asterisk_domain',
+ 'qty_hashtag_domain',
+ 'qty_dollar_domain',
+ 'qty_percent_domain'], axis=1, inplace=True)
     return df
