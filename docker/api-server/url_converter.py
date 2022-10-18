@@ -136,10 +136,13 @@ def table_6_features(full_url):
         who = whois.whois(d)
         if type(who['creation_date']) == list:
             features['time_domain_activation'] = (datetime.datetime.now() - who['creation_date'][0]).days
-            features['time_domain_expiration'] = (who['expiration_date'][0] - datetime.datetime.now()).days
         else:
             features['time_domain_activation'] = (datetime.datetime.now() - who['creation_date']).days
+        if type(who['expiration_date']) == list:
+            features['time_domain_expiration'] = (who['expiration_date'][0] - datetime.datetime.now()).days
+        else:
             features['time_domain_expiration'] = (who['expiration_date'] - datetime.datetime.now()).days
+
     except whois.parser.PywhoisError:
         features['time_domain_activation'] = -1
         features['time_domain_expiration'] = -1
@@ -301,17 +304,4 @@ def build_inference(url):
     table_6 = table_6_features(url)
     s = pd.Series(table_1 | table_2 | table_3 | table_4 | table_5 | table_6)
     df = pd.DataFrame(s).transpose().astype(dtypes)
-    df.drop(['qty_slash_domain',
- 'qty_questionmark_domain',
- 'qty_equal_domain',
- 'qty_and_domain',
- 'qty_exclamation_domain',
- 'qty_space_domain',
- 'qty_tilde_domain',
- 'qty_comma_domain',
- 'qty_plus_domain',
- 'qty_asterisk_domain',
- 'qty_hashtag_domain',
- 'qty_dollar_domain',
- 'qty_percent_domain'], axis=1, inplace=True)
     return df

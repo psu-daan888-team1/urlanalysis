@@ -19,3 +19,5 @@ with st.form('url_form'):
             st.success('URL appears safe')
         st.write("Benign Probability: " + str(round(result['benign'], 3)))
         st.write("Phishing Probability: " + str(round(result['phishing'], 3)))
+
+st.markdown("**Note: URLs saved to database for further analysis**")
