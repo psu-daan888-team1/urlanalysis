@@ -24,3 +24,44 @@ services:
     volumes:
       - ./data:/opt/data
       - ./docker/postgres:/docker-entrypoint-initdb.d
+
+  streamlit:
+    build: ./docker/streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - PG_PW=${pg_pw}
+    volumes:
+      - ./docker/streamlit:/opt/app
+
+  api:
+    build: ./docker/api-server
+    ports:
+      - "8000:8000"
+    environment:
+      - PG_PW=${pg_pw}
+    volumes:
+      - ./docker/api-server:/opt/app
+      - ./jupyter/models:/opt/app/models
+
+  # https://github.com/fraibacas/prefect-orion/blob/main/docker-compose.yaml
+#  prefect:
+#    image: prefecthq/prefect:sha-d9dd444-python3.10-conda
+#    command:
+#      - prefect
+#      - orion
+#      - start
+#    ports:
+#      - "4200:4200"
+#    volumes:
+#      - ./docker/prefect:/root/.prefect
+#    environment:
+#      PREFECT_ORION_API_HOST: 0.0.0.0
+#      PREFECT_ORION_DATABASE_CONNECTION_URL: postgresql+asyncpg://daan:${pg_pw}@pg:5432/phishing_data
+#      PREFECT_ORION_ANALYTICS_ENABLED: "false"
+#      PREFECT_LOGGING_SERVER_LEVEL: WARNING
+#      PREFECT_API_URL: http://localhost:4200/api
+#      # PREFECT_LOCAL_STORAGE_PATH: /opt/prefect/storage
+#    depends_on:
+#      pg:
+#        condition: service_started

@@ -121,4 +121,9 @@ FROM '/opt/data/dataset_full.csv'
 DELIMITER ','
 CSV HEADER;
 
+create table new_data as select * from full_dataset limit 0;
+alter table new_data add full_url text;
+alter table new_data add phish_probability float;
+alter table new_data add id int generated always as identity;
+
 COMMIT;

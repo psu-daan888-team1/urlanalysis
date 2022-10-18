@@ -136,10 +136,13 @@ def table_6_features(full_url):
         who = whois.whois(d)
         if type(who['creation_date']) == list:
             features['time_domain_activation'] = (datetime.datetime.now() - who['creation_date'][0]).days
-            features['time_domain_expiration'] = (who['expiration_date'][0] - datetime.datetime.now()).days
         else:
             features['time_domain_activation'] = (datetime.datetime.now() - who['creation_date']).days
+        if type(who['expiration_date']) == list:
+            features['time_domain_expiration'] = (who['expiration_date'][0] - datetime.datetime.now()).days
+        else:
             features['time_domain_expiration'] = (who['expiration_date'] - datetime.datetime.now()).days
+
     except whois.parser.PywhoisError:
         features['time_domain_activation'] = -1
         features['time_domain_expiration'] = -1
