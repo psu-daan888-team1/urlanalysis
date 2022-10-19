@@ -4,8 +4,15 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 from prefect import flow, get_run_logger, task
 import psycopg2
+from pydantic import BaseModel
 import xgboost as xgb
 
+
+# class HyperParameters(BaseModel):
+#     learning_rate: float
+#     max_depth: int
+#     n_estimators: int
+#
 
 @task(retries=3, retry_delay_seconds=10)
 def get_original_data():
@@ -67,7 +74,7 @@ def filter_unused_columns(data):
 
 
 @task
-def train_and_evaluate_model(data):
+def train_and_evaluate_model(data, learning_rate, max_depth, n_estimators):
     logger = get_run_logger()
     logger.info("Splitting data into train and test sets")
     phishing = data.pop('phishing')
@@ -75,9 +82,9 @@ def train_and_evaluate_model(data):
     clf = xgb.XGBClassifier(tree_method='hist',
                             enable_categorical=True,
                             max_cat_to_onehot=3,
-                            learning_rate=0.1,
-                            max_depth=8,
-                            n_estimators=1000)
+                            learning_rate=learning_rate,
+                            max_depth=max_depth,
+                            n_estimators=n_estimators)
     logger.info("Fitting XGBoost model")
     clf.fit(X_train, y_train)
 
@@ -101,12 +108,12 @@ def export_model(clf):
 
 
 @flow
-def train():
+def train(learning_rate, max_depth, n_estimators):
     orig_data = get_original_data()
     new_data = get_new_data()
     data = combine_data(orig_data, new_data)
     data = filter_unused_columns(data)
-    clf = train_and_evaluate_model(data)
+    clf = train_and_evaluate_model(data, learning_rate, max_depth, n_estimators)
     export_model(clf)
 
 
