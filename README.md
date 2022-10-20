@@ -7,6 +7,7 @@
 * Change directory to base of repo: `cd urlanalysis`
 * Create file called `.env` with the following text: `pg_pw = pass` where pass is the password you would like to use
 * Run `docker compose up`
+* The containers will begin building - it will take a while in the first instantiation.  It will be ready when you can access the services below
 
 ## Accessing
 * JupyterLab
@@ -17,6 +18,10 @@
   * User: daan
   * Password: in .env file
   * Host/Port: localhost:5432
+* Streamlit
+  * Access Streamlit UI [here](http://localhost:8501)
+* Prefect
+  * Access Prefect UI [here](http://localhost:4200)
 
 ## Citations
 Kukade , R. (2022). phishing-domain-detection. Retrieved from Kaggle: https://www.kaggle.com/datasets/ravirajkukade/phishingdomaindetection?select=dataset_full.csv
