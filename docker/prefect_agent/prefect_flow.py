@@ -68,7 +68,8 @@ def filter_unused_columns(data):
                       'qty_dollar_domain',
                       'qty_percent_domain',
                       'full_url',
-                      'phish_probability'], axis=1)
+                      'phish_probability',
+                      'id'], axis=1, errors='ignore')
     logger.info("New shape of df: " + str(data.shape))
     return data
 
