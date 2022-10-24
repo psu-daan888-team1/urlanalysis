@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
   jupyter:
-    build: ./docker/jupyter
+#    build: ./docker/jupyter
+    image: jeffoxenberg/daan888-jupyter:latest
     ports:
       - "8888:8888"
       - "6006:6006"
@@ -47,44 +48,44 @@ services:
       - ./jupyter/models:/opt/app/models
 
   # https://github.com/fraibacas/prefect-orion/blob/main/docker-compose.yaml
-#  prefect:
-#    image: prefecthq/prefect:sha-d9dd444-python3.10-conda
-#    command:
-#      - prefect
-#      - orion
-#      - start
-#    ports:
-#      - "4200:4200"
-#    volumes:
-#      - ./docker/prefect:/root/.prefect
-#    environment:
-#      PREFECT_ORION_API_HOST: 0.0.0.0
-#      PREFECT_ORION_DATABASE_CONNECTION_URL: postgresql+asyncpg://daan:${pg_pw}@pg:5432/phishing_data
-#      PREFECT_ORION_ANALYTICS_ENABLED: "false"
-#      # PREFECT_LOGGING_LEVEL: INFO
-#      PREFECT_API_URL: http://localhost:4200/api
-#      PG_PW: ${pg_pw}
-#      # PREFECT_LOCAL_STORAGE_PATH: /opt/prefect/storage
-#    depends_on:
-#      pg:
-#        condition: service_started
-#
-#  agent:
-#    build: ./docker/prefect_agent
-#    #image: prefecthq/prefect:sha-d9dd444-python3.10-conda
-#    command:
-#      - prefect
-#      - agent
-#      - start
-#      - -q
-#      - work_queue
-#    volumes:
-#      - ./docker/prefect_agent:/prefect
-#      - ./jupyter/models:/models
-#    environment:
-#      PREFECT_API_URL: http://prefect:4200/api
-#      # PREFECT_LOGGING_LEVEL: WARNING
-#      PG_PW: ${pg_pw}
-#    depends_on:
-#      prefect:
-#        condition: service_started
+  prefect:
+    image: prefecthq/prefect:sha-d9dd444-python3.10-conda
+    command:
+      - prefect
+      - orion
+      - start
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./docker/prefect:/root/.prefect
+    environment:
+      PREFECT_ORION_API_HOST: 0.0.0.0
+      PREFECT_ORION_DATABASE_CONNECTION_URL: postgresql+asyncpg://daan:${pg_pw}@pg:5432/phishing_data
+      PREFECT_ORION_ANALYTICS_ENABLED: "false"
+      # PREFECT_LOGGING_LEVEL: INFO
+      PREFECT_API_URL: http://localhost:4200/api
+      PG_PW: ${pg_pw}
+      # PREFECT_LOCAL_STORAGE_PATH: /opt/prefect/storage
+    depends_on:
+      pg:
+        condition: service_started
+
+  agent:
+    build: ./docker/prefect_agent
+    #image: prefecthq/prefect:sha-d9dd444-python3.10-conda
+    command:
+      - prefect
+      - agent
+      - start
+      - -q
+      - work_queue
+    volumes:
+      - ./docker/prefect_agent:/prefect
+      - ./jupyter/models:/models
+    environment:
+      PREFECT_API_URL: http://prefect:4200/api
+      # PREFECT_LOGGING_LEVEL: WARNING
+      PG_PW: ${pg_pw}
+    depends_on:
+      prefect:
+        condition: service_started
