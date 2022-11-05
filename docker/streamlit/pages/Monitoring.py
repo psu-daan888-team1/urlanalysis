@@ -41,11 +41,10 @@ async def monitor_flow():
         if status in ['Scheduled', 'Running', 'Pending']:
             w = await asyncio.sleep(5)
         else:
-            if status == 'Completed':
-                logs = requests.post('http://prefect:4200/api/logs/filter',
-                                     json={"logs": {"flow_run_id": {'any_': [flow_id]}}})
-                results.text("\t" + logs.json()[18]['message'])
-
+            # if status == 'Completed':
+            #     logs = requests.post('http://prefect:4200/api/logs/filter',
+            #                          json={"logs": {"flow_run_id": {'any_': [flow_id]}}})
+            #     results.text("\t" + logs.json()[18]['message'])
             break
 
 
