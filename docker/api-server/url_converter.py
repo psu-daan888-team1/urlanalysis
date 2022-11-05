@@ -142,8 +142,10 @@ def table_6_features(full_url):
             features['time_domain_expiration'] = (who['expiration_date'][0] - datetime.datetime.now()).days
         else:
             features['time_domain_expiration'] = (who['expiration_date'] - datetime.datetime.now()).days
-
     except whois.parser.PywhoisError:
+        features['time_domain_activation'] = -1
+        features['time_domain_expiration'] = -1
+    except Exception as e:
         features['time_domain_activation'] = -1
         features['time_domain_expiration'] = -1
     try:
