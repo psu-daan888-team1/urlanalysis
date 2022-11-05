@@ -41,6 +41,11 @@ async def monitor_flow():
         if status in ['Scheduled', 'Running', 'Pending']:
             w = await asyncio.sleep(5)
         else:
+            if status == 'Completed':
+                logs = requests.post('http://prefect:4200/api/logs/filter',
+                                     json={"logs": {"flow_run_id": {'any_': [flow_id]}}})
+                results.text("\t" + logs.json()[18]['message'])
+
             break
 
 
@@ -56,8 +61,10 @@ c3.markdown("<h4 style='text-align: center'>Inferences</h4>", unsafe_allow_html=
 c3.markdown("<h1 style='text-align: center; color: MediumSeaGreen'>" + str(len(q)) + "</h1>", unsafe_allow_html=True)
 
 c4, c5 = st.columns([1, 3])
+c6, c7 = st.columns([1, 3])
 if c4.button("Retrain Model", key='retrain'):
     status_column = c5.empty()
+    results = c7.empty()
     asyncio.run(monitor_flow())
 
 
